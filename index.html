@@ -74,30 +74,13 @@
     box-shadow:0 4px 14px rgba(0,0,0,0.28);
   }
   #annot-toggle .dotstate{width:8px;height:8px;border-radius:50%;background:var(--amber);flex:none;}
-  .annot-legend{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--ink);}
-  .annot-legend .row{display:flex;align-items:center;gap:8px;}
-  .annot-legend .num{
-    width:18px;height:18px;border-radius:50%;background:var(--amber);color:var(--chip-ink);
-    font-family:'Barlow Condensed';font-weight:700;font-size:11.5px;
-    display:flex;align-items:center;justify-content:center;flex:none;
-  }
 
   .annot{position:relative;}
   .annot-outline{outline:2px dashed var(--chip-border);outline-offset:5px;border-radius:8px;transition:outline-color 0.15s;}
-  .annot-badge{
-    position:absolute;top:-11px;right:-11px;width:23px;height:23px;border-radius:50%;
-    background:var(--amber);color:var(--chip-ink);border:2px solid var(--white);
-    font-family:'Barlow Condensed';font-weight:700;font-size:13px;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 1px 3px rgba(0,0,0,0.3);z-index:6;
-  }
   /* état masqué : on retire les repères, le mockup redevient "propre" */
   body.hide-annot .annot-outline{outline-color:transparent;}
-  body.hide-annot .annot-badge{display:none;}
-  body.hide-annot .annot-legend{display:none;}
+  body.hide-annot .tag{display:none;}
   body.hide-annot #annot-toggle .dotstate{background:transparent;border:1px solid rgba(255,255,255,0.5);}
-  .annot-badge--inset{top:12px;right:12px;}
-  .annot-badge--tight{top:-8px;right:-8px;width:19px;height:19px;font-size:11px;}
 
   /* header - structure calquée sur le header réel du site */
   nav{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:var(--white);}
@@ -217,15 +200,7 @@
 </style>
 
 <div class="intro">
-  <b>Maquette de refonte — article « Comment se reconvertir avec son CPF ? »</b> (formation.atelierdeschefs.fr). Charte graphique et structure identiques à la page en ligne (couleurs, polices et composants relevés sur le site), seuls les éléments recommandés dans l'audit ont été ajoutés.
-  <div class="annot-toolbar">
-    <div class="annot-legend">
-      <div class="row"><span class="num">1</span><span>Recherche ajoutée dans le header</span></div>
-      <div class="row"><span class="num">2</span><span>Auteur nommé + temps de lecture</span></div>
-      <div class="row"><span class="num">3</span><span>Tableau comparatif des régimes CPF</span></div>
-      <div class="row"><span class="num">4</span><span>Bloc de maillage interne en fin d'article</span></div>
-    </div>
-  </div>
+  <b>Maquette de refonte — article « Comment se reconvertir avec son CPF ? »</b> (formation.atelierdeschefs.fr). Charte graphique et structure identiques à la page en ligne (couleurs, polices et composants relevés sur le site), seuls les éléments recommandés dans l'audit ont été ajoutés : chaque étiquette jaune signale un ajout, directement à côté de l'élément concerné.
 </div>
 
 <button id="annot-toggle" type="button"><span class="dotstate"></span><span class="label">Masquer les annotations</span></button>
@@ -241,8 +216,8 @@
       <div class="pill-outline">Accès formation</div>
       <div class="icon-btn annot annot-outline" style="border-radius:50%;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <span class="annot-badge annot-badge--tight">1</span>
       </div>
+      <span class="tag">ajout : recherche</span>
       <div class="icon-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
       </div>
@@ -271,7 +246,7 @@
         <div class="meta-item">8 min de lecture</div>
         <span class="dot"></span>
         <div class="meta-item">Publié le 13 mai 2024 · MàJ le 16 juin 2026</div>
-        <span class="annot-badge">2</span>
+        <span class="tag" style="margin-left:auto;">ajout : auteur + temps de lecture</span>
       </div>
     </div>
     <div class="hero-media">
@@ -306,8 +281,8 @@
     <h3 class="sub">Comment sont calculés les droits à la formation ?</h3>
     <p>Les droits à la formation sont accumulés chaque année en fonction de l'activité du bénéficiaire. Le tableau ci-dessous résume les deux régimes d'acquisition.</p>
 
-    <div class="tblwrap annot annot-outline" style="margin-top:14px;">
-      <span class="annot-badge">3</span>
+    <div class="row-tagged" style="margin-bottom:8px;"><span class="tag">ajout : tableau</span></div>
+    <div class="tblwrap annot annot-outline" style="margin-top:0;">
     <table>
       <thead><tr><th>Régime CPF</th><th>Public</th><th>Montant annuel</th><th>Plafond</th><th>Reste à charge</th></tr></thead>
       <tbody>
@@ -390,8 +365,7 @@
   </div>
 
   <div class="related annot annot-outline" style="outline-offset:-2px;">
-    <span class="annot-badge annot-badge--inset">4</span>
-    <h2>À lire aussi sur le CPF</h2>
+    <div class="row-tagged" style="margin-bottom:2px;"><h2>À lire aussi sur le CPF</h2><span class="tag">ajout : maillage</span></div>
     <p class="hint">Bloc de maillage contextuel en fin d'article, vers les guides du même pilier éditorial (« Actualités du Compte Personnel de Formation »).</p>
     <div class="relgrid">
       <div class="relcard"><span class="k">Guide</span><b>Le CPF de transition professionnelle, mode d'emploi</b></div>
