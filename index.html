@@ -108,7 +108,17 @@
   .pill-outline{border:1px solid var(--ink);border-radius:42px;padding:11px 20px;font-family:'Barlow Condensed';font-size:14px;letter-spacing:0.02em;text-transform:uppercase;font-weight:500;color:var(--ink);white-space:nowrap;}
 
   /* hero */
-  .hero{background:var(--terracotta);color:#fff;padding:32px 24px 26px;}
+  .hero{background:var(--terracotta);color:#fff;display:flex;align-items:stretch;}
+  .hero-content{flex:1 1 auto;padding:32px 24px 26px;min-width:0;}
+  .hero-media{
+    flex:0 0 38%;position:relative;min-height:100%;
+    background:
+      repeating-linear-gradient(135deg, rgba(0,0,0,0.08) 0 2px, transparent 2px 14px),
+      linear-gradient(160deg, #b23b3a, #d9635f);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:rgba(255,255,255,0.85);
+  }
+  .hero-media svg{width:34px;height:34px;}
+  .hero-media span{font-family:'Barlow Condensed';font-size:12px;letter-spacing:0.04em;text-transform:uppercase;opacity:0.85;}
   .crumb{font-size:11px;color:#fff;opacity:0.8;margin-bottom:14px;}
   .hero h1{color:#fff;font-size:34px;line-height:1.08;margin-bottom:14px;}
   .hero p{font-size:15px;line-height:1.55;max-width:58ch;opacity:0.95;margin:0 0 20px;}
@@ -166,10 +176,37 @@
   /* sticky cta */
   .ctabar{background:var(--terracotta);color:#fff;display:flex;justify-content:flex-end;gap:10px;padding:14px 24px;}
 
+  /* formations grid */
+  .cat{margin:22px 0 8px;font-family:'Barlow Condensed';font-weight:600;font-size:16px;text-transform:uppercase;letter-spacing:0.02em;color:var(--ink);}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
+  .chip{background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12.5px;color:var(--ink);}
+
+  /* promo CTA cream block */
+  .promo{background:var(--cream-2);padding:26px 24px;text-align:center;border-top:1px solid var(--line);}
+  .promo h3{font-size:20px;margin-bottom:14px;}
+  .promo .herobtns{justify-content:center;margin-bottom:12px;}
+  .promo .fine{font-size:11px;color:var(--ink);opacity:0.6;max-width:60ch;margin:0 auto;}
+
+  /* lancez-vous */
+  .launch{padding:26px 24px;display:grid;grid-template-columns:1fr 1.3fr;gap:24px;}
+  .launch h2{font-size:22px;}
+  .launch p{font-size:13.5px;}
+
+  /* footer */
+  .sitefooter{background:var(--terracotta);color:#fff;padding:28px 24px;}
+  .sitefooter .follow{font-family:'Oswald';font-size:18px;margin-bottom:14px;}
+  .footcols{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:22px;}
+  .footcols h4{font-family:'Barlow Condensed';font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:0.03em;margin:0 0 10px;opacity:0.9;}
+  .footcols ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:12px;opacity:0.85;}
+  .footbottom{border-top:1px solid rgba(255,255,255,0.25);padding-top:14px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:11px;opacity:0.8;}
+
   @media (max-width:640px){
     .relgrid{grid-template-columns:1fr;}
     nav .navlinks{display:none;}
     .hero h1{font-size:26px;}
+    .hero-media{display:none;}
+    .launch{grid-template-columns:1fr;}
+    .footcols{grid-template-columns:1fr 1fr;}
   }
 </style>
 
@@ -207,27 +244,33 @@
   </nav>
 
   <div class="hero">
-    <div class="crumb">Formations &gt; Formations Digitales &gt; Nos conseils &gt; Actualités du CPF &gt; Comment se reconvertir avec son CPF ?</div>
-    <h1>Comment se reconvertir avec son CPF ?</h1>
-    <p>Un projet de reconversion ? Vous êtes au bon endroit si vous vous posez des questions quant à la planification de votre future carrière. Comment utiliser son CPF pour se reconvertir ? Comment choisir la bonne formation ?</p>
-    <div class="herobtns">
-      <span class="btn solid">Prendre rendez-vous</span>
-      <span class="btn line">Recevoir la brochure</span>
-    </div>
-
-    <div class="meta-row annot annot-outline">
-      <div class="author">
-        <div class="avatar">CB</div>
-        <div>
-          <div class="name">Camille Béranger*</div>
-          <div class="role">Conseillère formation, L'Atelier des Chefs</div>
-        </div>
+    <div class="hero-content">
+      <div class="crumb">Formations &gt; Formations Digitales &gt; Nos conseils &gt; Actualités du CPF &gt; Comment se reconvertir avec son CPF ?</div>
+      <h1>Comment se reconvertir avec son CPF ?</h1>
+      <p>Un projet de reconversion ? Vous êtes au bon endroit si vous vous posez des questions quant à la planification de votre future carrière. Comment utiliser son CPF pour se reconvertir ? Comment choisir la bonne formation ?</p>
+      <div class="herobtns">
+        <span class="btn solid">Prendre rendez-vous</span>
+        <span class="btn line">Recevoir la brochure</span>
       </div>
-      <span class="dot"></span>
-      <div class="meta-item">8 min de lecture</div>
-      <span class="dot"></span>
-      <div class="meta-item">Publié le 13 mai 2024 · MàJ le 16 juin 2026</div>
-      <span class="annot-badge">2</span>
+
+      <div class="meta-row annot annot-outline">
+        <div class="author">
+          <div class="avatar">CB</div>
+          <div>
+            <div class="name">Camille Béranger*</div>
+            <div class="role">Conseillère formation, L'Atelier des Chefs</div>
+          </div>
+        </div>
+        <span class="dot"></span>
+        <div class="meta-item">8 min de lecture</div>
+        <span class="dot"></span>
+        <div class="meta-item">Publié le 13 mai 2024 · MàJ le 16 juin 2026</div>
+        <span class="annot-badge">2</span>
+      </div>
+    </div>
+    <div class="hero-media">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-4-4 3-3-2-5 4"/></svg>
+      <span>Photo existante conservée</span>
     </div>
   </div>
 
@@ -251,6 +294,9 @@
     </div>
 
     <h2 class="sec">Comprendre le CPF</h2>
+    <h3 class="sub">Qu'est-ce que le CPF ?</h3>
+    <p>Le Compte Personnel de Formation (CPF) est une initiative gouvernementale instaurée pour remplacer le droit individuel à la formation (DIF) en 2015. Ce dispositif permet à tout travailleur, qu'il soit salarié, demandeur d'emploi, ou agent public, de cumuler des droits à la formation crédités en euros, dès son entrée sur le marché du travail et jusqu'à sa retraite.</p>
+
     <h3 class="sub">Comment sont calculés les droits à la formation ?</h3>
     <p>Les droits à la formation sont accumulés chaque année en fonction de l'activité du bénéficiaire. Le tableau ci-dessous résume les deux régimes d'acquisition.</p>
 
@@ -265,15 +311,49 @@
       </tbody>
     </table>
     </div>
-    <p style="margin-top:14px;">Pour connaître son solde, chaque bénéficiaire doit se rendre sur le site officiel ou utiliser l'application « Mon Compte Formation ». Vous voulez en savoir plus sur les aides à la reconversion&nbsp;? On a écrit
+
+    <h3 class="sub">Comment consulter son solde de CPF ?</h3>
+    <p>Pour connaître son solde de CPF, chaque bénéficiaire doit se rendre sur le site officiel dédié ou utiliser l'application mobile « Mon Compte Formation » : création de l'identité numérique avec France Connect, puis connexion à son compte CPF. Le montant total des droits accumulés s'affiche sur le tableau de bord. Si le solde est insuffisant, des dispositifs de co-financement peuvent être envisagés. Vous voulez en savoir plus sur les aides à la reconversion&nbsp;? On a écrit
       <span class="inline-link">un article complet sur les aides à la reconversion professionnelle</span>.
     </p>
 
     <h2 class="sec">CPF et reconversion professionnelle</h2>
+    <h3 class="sub">Pourquoi utiliser son CPF pour se reconvertir ?</h3>
+    <p>Le CPF est un outil essentiel pour celles et ceux qui envisagent une reconversion professionnelle : autonomie dans le choix de la formation, accessibilité financière grâce aux fonds accumulés et variété de formations certifiantes reconnues par le marché du travail.</p>
+
     <h3 class="sub">Comment choisir la bonne formation ?</h3>
     <p>Le choix de la formation est l'étape la plus importante de votre démarche. Trois critères à considérer : la pertinence par rapport au projet professionnel, la reconnaissance et l'accréditation, et l'adéquation avec le marché de l'emploi. Découvrez
       <span class="inline-link">toutes les formations éligibles au CPF</span>.
     </p>
+
+    <h2 class="sec">Comment utiliser son CPF pour se reconvertir ?</h2>
+    <h3 class="sub">Le processus d'inscription</h3>
+    <p>Utiliser son CPF pour financer une formation requiert de suivre quelques étapes clés : sélection de la formation sur le portail « Mon Compte Formation », inscription directement via le site ou l'application, puis paiement grâce au solde CPF. Depuis le 2 avril 2026, un reste à charge de 150&nbsp;€ par formation s'applique, même si le solde CPF est supérieur au montant total. Une pièce d'identité et le numéro de sécurité sociale sont généralement requis pour compléter l'inscription.</p>
+
+    <h3 class="sub">Les aides au financement complémentaires</h3>
+    <p>Si le solde CPF ne couvre pas l'intégralité du coût de la formation, des aides complémentaires restent mobilisables auprès de France Travail, de sa Région ou d'un OPCO.</p>
+
+    <h2 class="sec">Nos conseils pour réussir sa reconversion avec le CPF</h2>
+    <p>Une reconversion professionnelle réussie commence par une planification minutieuse et la définition d'objectifs clairs à long terme. Établissez un plan de carrière détaillé qui inclut des étapes progressives, des objectifs intermédiaires et des évaluations périodiques de vos progrès.</p>
+    <p>Anticiper les tendances du marché et les compétences futures requises est essentiel. Envisagez des formations qui vous préparent à des rôles émergents ou des secteurs en croissance, ce qui augmentera votre employabilité et votre pertinence dans le futur marché du travail.</p>
+
+    <h2 class="sec">Nos formations digitales aux métiers de la main et de l'humain</h2>
+    <p>À L'Atelier des Chefs, la majorité des formations sont certifiantes et éligibles au financement par le CPF, de la cuisine à la pâtisserie, de l'esthétique à la diététique, de la menuiserie à l'électricité.</p>
+
+    <div class="cat">Formations Restauration</div>
+    <div class="chips"><span class="chip">CAP Cuisine</span><span class="chip">TP Commis de Cuisine</span><span class="chip">CAP Pâtissier</span><span class="chip">CAP Boulanger</span><span class="chip">CAP Boucher</span><span class="chip">Cuisine Végétale</span><span class="chip">Sommellerie</span><span class="chip">Barista</span></div>
+
+    <div class="cat">Formations Bâtiment</div>
+    <div class="chips"><span class="chip">CAP Électricien</span><span class="chip">BTS Bâtiment</span><span class="chip">CAP Menuisier Fabricant</span><span class="chip">CAP Maçon</span><span class="chip">Jardinier Paysagiste</span></div>
+
+    <div class="cat">Formations Mécanique &amp; Réparation</div>
+    <div class="chips"><span class="chip">CAP Maintenance des Véhicules</span><span class="chip">TP Mécanicien de maintenance automobile</span><span class="chip">Technicien Gros Électroménager</span></div>
+
+    <div class="cat">Formations Santé &amp; Social</div>
+    <div class="chips"><span class="chip">BTS Diététique et Nutrition</span><span class="chip">Diététique du sport</span><span class="chip">Devenir sophrologue</span></div>
+
+    <div class="cat">Formations Beauté &amp; Bien-être / Arts décoratifs</div>
+    <div class="chips"><span class="chip">CAP Métiers de la Coiffure</span><span class="chip">CAP Couture</span><span class="chip">CAP Fleuriste</span></div>
   </div>
 
   <div class="related annot annot-outline" style="outline-offset:-2px;">
@@ -287,17 +367,46 @@
     </div>
   </div>
 
+  <div class="promo">
+    <h3>Un projet de formation ? Contactez-nous !</h3>
+    <div class="herobtns">
+      <span class="btn solid" style="background:var(--terracotta);">Prendre rendez-vous</span>
+      <span class="btn line" style="border-color:var(--ink);color:var(--ink);">Télécharger la brochure</span>
+    </div>
+    <p class="fine">En remplissant le formulaire, j'accepte que L'Atelier des Chefs me contacte pour répondre à ma demande d'information.</p>
+  </div>
+
+  <div class="launch">
+    <h2>Lancez-vous dès aujourd'hui !</h2>
+    <p>Prêt à franchir le pas vers votre nouvelle carrière&nbsp;? Ne laissez pas passer cette opportunité de vous reconvertir en utilisant votre Compte Personnel de Formation. Commencez dès aujourd'hui en vérifiant votre solde de CPF sur le site officiel Mon Compte Formation. Explorez les formations disponibles qui peuvent vous ouvrir les portes de votre future carrière, que vous soyez intéressé par la cuisine, le social, le bâtiment ou tout autre domaine.</p>
+  </div>
+
   <div class="faq">
     <h2>On répond à vos questions</h2>
     <div class="faqitem"><span>Puis-je utiliser mon CPF pour une reconversion professionnelle ?</span><span class="plus">+</span></div>
     <div class="faqitem"><span>Qu'est-ce qui change pour le CPF en 2026 ?</span><span class="plus">+</span></div>
     <div class="faqitem"><span>Quelles sont les conditions pour bénéficier du CPF de transition professionnelle ?</span><span class="plus">+</span></div>
+    <div class="faqitem"><span>Quelles formations sont prises en charge par le CPF dans le cadre d'une reconversion professionnelle ?</span><span class="plus">+</span></div>
     <div class="faqitem"><span>Comment fonctionne le dispositif Transition Pro pour financer ma reconversion ?</span><span class="plus">+</span></div>
   </div>
 
   <div class="ctabar">
     <span class="btn line">Recevoir la brochure</span>
     <span class="btn solid" style="background:#fff;color:var(--terracotta);">Prendre rendez-vous</span>
+  </div>
+
+  <div class="sitefooter">
+    <div class="follow">Suivez-nous !</div>
+    <div class="footcols">
+      <div><h4>Formations digitales</h4><ul><li>Restauration</li><li>Bâtiment</li><li>Mécanique &amp; Réparation</li><li>Santé &amp; Social</li><li>Beauté &amp; Bien-être</li></ul></div>
+      <div><h4>Formations en apprentissage</h4><ul><li>Toutes les formations</li></ul></div>
+      <div><h4>Formations présentielles</h4><ul><li>Cuisine</li><li>Pâtisserie</li><li>Électricien</li><li>Diététique</li></ul></div>
+      <div><h4>Nos conseils</h4><ul><li>CPF</li><li>Reconversion</li><li>Financement</li></ul></div>
+    </div>
+    <div class="footbottom">
+      <span>© 2026 L'Atelier des Chefs — Tous droits réservés</span>
+      <span>Conditions générales · Mentions légales · Politique de confidentialité</span>
+    </div>
   </div>
 
 </div>
