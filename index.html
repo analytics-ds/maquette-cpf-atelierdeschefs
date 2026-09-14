@@ -1,0 +1,314 @@
+<title>Refonte Article CPF</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Barlow+Condensed:wght@500;600&family=Work+Sans:wght@400;500;600&display=swap');
+
+  /* Palette + polices relevées sur le site en production (getComputedStyle / @font-face) :
+     hero / sticky bar  #CA4645
+     CTA plein          #FA5046
+     texte / navy       #0F2830
+     fond crème         #F9F5EB
+     fond crème 2       #F6F6F0
+     accent icône       #FCA70F
+     bordure            #CCCCCC
+     Titres (H1/H2)  -> police maison "National2 Compressed" (Klim), non libre de droits.
+                        Approximation la plus proche disponible : Oswald.
+     Nav / boutons   -> police maison "National2 Condensed" (Klim), non libre de droits.
+                        Approximation la plus proche disponible : Barlow Condensed.
+     Texte courant   -> police maison "Athletics", non libre de droits.
+                        Approximation la plus proche disponible : Work Sans.
+     Ces 3 polices étant propriétaires et non redistribuables, il n'est pas possible de les
+     reproduire à l'identique dans cette maquette : ce sont les alternatives visuellement les
+     plus proches. */
+  :root{
+    --terracotta:#CA4645;
+    --coral:#FA5046;
+    --ink:#0F2830;
+    --cream:#F9F5EB;
+    --cream-2:#F6F6F0;
+    --amber:#FCA70F;
+    --line:#CCCCCC;
+    --white:#FFFFFF;
+    --chip-bg:#FFF3D6;
+    --chip-border:#E3B23C;
+    --chip-ink:#5A4106;
+  }
+  /* Maquette au format "capture du site réel" : une seule charte, celle du site,
+     volontairement non re-thémée en sombre (le site lui-même n'a pas de mode sombre). */
+
+  *{box-sizing:border-box;}
+  body{margin:0;background:#F0ECE4;color:var(--ink);font-family:'Work Sans',system-ui,sans-serif;padding:0 16px;}
+  a{color:inherit;text-decoration:none;}
+
+  .heading, h1,h2,h3{
+    font-family:'Oswald',Impact,sans-serif;
+    text-transform:uppercase;
+    font-weight:500;
+    letter-spacing:0.01em;
+    text-wrap:balance;
+    margin:0;
+  }
+
+  .intro{max-width:920px;margin:28px auto 20px;padding:16px 20px;background:var(--white);border:1px solid var(--line);border-radius:10px;font-size:14px;color:var(--ink);line-height:1.5;}
+  .intro b{font-weight:600;}
+  .legend{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--ink);opacity:0.75;}
+
+  .frame{max-width:920px;margin:0 auto 60px;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--white);}
+
+  .tag{display:inline-flex;align-items:center;gap:6px;background:var(--chip-bg);border:1px solid var(--chip-border);color:var(--chip-ink);font-size:10.5px;letter-spacing:0.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap;font-family:'Work Sans';font-weight:600;}
+  .tag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--amber);flex:none;}
+  .row-tagged{display:flex;flex-wrap:wrap;align-items:center;gap:10px;}
+
+  /* ---- annotations toggle ---- */
+  .annot-toolbar{
+    margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);
+  }
+  #annot-toggle{
+    position:fixed;right:20px;bottom:20px;z-index:50;
+    display:inline-flex;align-items:center;gap:9px;
+    background:var(--ink);color:#fff;border:none;cursor:pointer;
+    font-family:'Barlow Condensed';font-weight:600;font-size:14.5px;letter-spacing:0.02em;text-transform:uppercase;
+    padding:13px 20px;border-radius:999px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.28);
+  }
+  #annot-toggle .dotstate{width:8px;height:8px;border-radius:50%;background:var(--amber);flex:none;}
+  .annot-legend{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--ink);}
+  .annot-legend .row{display:flex;align-items:center;gap:8px;}
+  .annot-legend .num{
+    width:18px;height:18px;border-radius:50%;background:var(--amber);color:var(--chip-ink);
+    font-family:'Barlow Condensed';font-weight:700;font-size:11.5px;
+    display:flex;align-items:center;justify-content:center;flex:none;
+  }
+
+  .annot{position:relative;}
+  .annot-outline{outline:2px dashed var(--chip-border);outline-offset:5px;border-radius:8px;transition:outline-color 0.15s;}
+  .annot-badge{
+    position:absolute;top:-11px;right:-11px;width:23px;height:23px;border-radius:50%;
+    background:var(--amber);color:var(--chip-ink);border:2px solid var(--white);
+    font-family:'Barlow Condensed';font-weight:700;font-size:13px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);z-index:6;
+  }
+  /* état masqué : on retire les repères, le mockup redevient "propre" */
+  body.hide-annot .annot-outline{outline-color:transparent;}
+  body.hide-annot .annot-badge{display:none;}
+  body.hide-annot .annot-legend{display:none;}
+  body.hide-annot #annot-toggle .dotstate{background:transparent;border:1px solid rgba(255,255,255,0.5);}
+  .annot-badge--inset{top:12px;right:12px;}
+  .annot-badge--tight{top:-8px;right:-8px;width:19px;height:19px;font-size:11px;}
+
+  /* header - structure calquée sur le header réel du site */
+  nav{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;background:var(--white);}
+  .logo{width:58px;height:58px;border-radius:50%;background:var(--terracotta);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1.15;flex:none;}
+  .logo .l1{font-family:'Barlow Condensed';font-size:9px;letter-spacing:0.02em;font-weight:500;}
+  .logo .l2{font-family:'Oswald';font-size:15px;font-weight:600;letter-spacing:0.01em;}
+  .navlinks{display:flex;align-items:center;gap:26px;font-family:'Barlow Condensed';font-weight:500;font-size:15px;letter-spacing:0.02em;text-transform:uppercase;color:var(--ink);}
+  .right{display:flex;align-items:center;gap:16px;}
+  .icon-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ink);flex:none;}
+  .icon-btn svg{width:19px;height:19px;}
+  .pill-outline{border:1px solid var(--ink);border-radius:42px;padding:11px 20px;font-family:'Barlow Condensed';font-size:14px;letter-spacing:0.02em;text-transform:uppercase;font-weight:500;color:var(--ink);white-space:nowrap;}
+
+  /* hero */
+  .hero{background:var(--terracotta);color:#fff;padding:32px 24px 26px;}
+  .crumb{font-size:11px;color:#fff;opacity:0.8;margin-bottom:14px;}
+  .hero h1{color:#fff;font-size:34px;line-height:1.08;margin-bottom:14px;}
+  .hero p{font-size:15px;line-height:1.55;max-width:58ch;opacity:0.95;margin:0 0 20px;}
+  .herobtns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .btn{font-family:'Barlow Condensed';font-size:15px;letter-spacing:0.02em;text-transform:uppercase;font-weight:600;padding:12px 22px;border-radius:42px;}
+  .btn.solid{background:var(--coral);color:#fff;}
+  .btn.line{border:1px solid #fff;color:#fff;}
+
+  .meta-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;background:rgba(0,0,0,0.15);border-radius:8px;padding:12px 14px;}
+  .author{display:flex;align-items:center;gap:9px;}
+  .avatar{width:32px;height:32px;border-radius:50%;background:var(--amber);color:var(--ink);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed';font-weight:600;font-size:14px;flex:none;}
+  .author .name{font-size:12.5px;font-weight:600;line-height:1.3;}
+  .author .role{font-size:10.5px;opacity:0.85;}
+  .meta-item{font-size:12px;opacity:0.95;}
+  .dot{width:3px;height:3px;border-radius:50%;background:#fff;opacity:0.55;}
+
+  /* sommaire */
+  .sommaire{background:var(--cream);padding:26px 24px;border-bottom:1px solid var(--line);}
+  .sommaire h2{font-size:20px;margin-bottom:16px;color:var(--ink);}
+  .sommaire ol{margin:0;padding-left:20px;font-family:'Barlow Condensed';font-weight:500;font-size:16px;letter-spacing:0.01em;text-transform:uppercase;line-height:2.1;color:var(--ink);}
+
+  /* body */
+  .body{padding:28px 24px;}
+  .enbref{background:var(--cream);border-radius:6px;padding:16px 18px;margin-bottom:26px;font-size:14px;line-height:1.65;color:var(--ink);}
+  .enbref .lab{font-family:'Barlow Condensed';font-size:14px;letter-spacing:0.04em;text-transform:uppercase;font-weight:600;margin-bottom:8px;display:block;}
+  h2.sec{font-size:24px;margin:32px 0 12px;color:var(--ink);}
+  h3.sub{font-family:'Work Sans';font-weight:600;text-transform:none;font-size:15px;margin:20px 0 8px;color:var(--ink);}
+  p{font-size:14.5px;line-height:1.7;color:var(--ink);margin:0 0 14px;}
+  .inline-link{border-bottom:1px solid var(--ink);font-weight:500;padding-bottom:1px;}
+
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{padding:11px 13px;text-align:left;border-bottom:1px solid var(--line);}
+  th{background:var(--cream);font-family:'Barlow Condensed';font-weight:600;text-transform:uppercase;font-size:13px;letter-spacing:0.03em;}
+  td.num{font-variant-numeric:tabular-nums;}
+  tr:last-child td{border-bottom:none;}
+  .tblcap{margin-top:6px;margin-bottom:18px;}
+
+  /* related */
+  .related{background:var(--cream);padding:24px;border-top:1px solid var(--line);}
+  .related h2{font-size:18px;margin-bottom:4px;color:var(--ink);}
+  .related .hint{font-size:12px;color:var(--ink);opacity:0.65;margin:0 0 16px;font-family:'Work Sans';text-transform:none;}
+  .relgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .relcard{background:var(--white);border:1px solid var(--line);border-radius:6px;padding:13px 14px;font-size:13px;line-height:1.4;}
+  .relcard .k{font-family:'Barlow Condensed';font-weight:600;font-size:12px;color:var(--terracotta);text-transform:uppercase;letter-spacing:0.04em;display:block;margin-bottom:7px;}
+  .relcard b{font-weight:600;}
+
+  /* faq */
+  .faq{background:var(--cream);padding:24px;border-top:1px solid var(--line);}
+  .faq h2{font-size:18px;margin-bottom:16px;color:var(--ink);}
+  .faqitem{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--ink);}
+  .faqitem:last-child{border-bottom:none;}
+  .plus{width:20px;height:20px;border-radius:50%;background:var(--terracotta);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex:none;}
+
+  /* sticky cta */
+  .ctabar{background:var(--terracotta);color:#fff;display:flex;justify-content:flex-end;gap:10px;padding:14px 24px;}
+
+  @media (max-width:640px){
+    .relgrid{grid-template-columns:1fr;}
+    nav .navlinks{display:none;}
+    .hero h1{font-size:26px;}
+  }
+</style>
+
+<div class="intro">
+  <b>Maquette de refonte — article « Comment se reconvertir avec son CPF ? »</b> (formation.atelierdeschefs.fr). Charte graphique et structure identiques à la page en ligne (couleurs, polices et composants relevés sur le site), seuls les éléments recommandés dans l'audit ont été ajoutés.
+  <div class="annot-toolbar">
+    <div class="annot-legend">
+      <div class="row"><span class="num">1</span><span>Recherche ajoutée dans le header</span></div>
+      <div class="row"><span class="num">2</span><span>Auteur nommé + temps de lecture</span></div>
+      <div class="row"><span class="num">3</span><span>Tableau comparatif des régimes CPF</span></div>
+      <div class="row"><span class="num">4</span><span>Bloc de maillage interne en fin d'article</span></div>
+    </div>
+  </div>
+</div>
+
+<button id="annot-toggle" type="button"><span class="dotstate"></span><span class="label">Masquer les annotations</span></button>
+
+<div class="frame">
+
+  <nav>
+    <div class="logo"><span class="l1">L'ATELIER DES</span><span class="l2">CHEFS</span></div>
+    <div class="navlinks">
+      <span>Formations digitales</span><span>Formations en apprentissage</span><span>Formations présentielles</span>
+    </div>
+    <div class="right">
+      <div class="pill-outline">Accès formation</div>
+      <div class="icon-btn annot annot-outline" style="border-radius:50%;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="annot-badge annot-badge--tight">1</span>
+      </div>
+      <div class="icon-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="crumb">Formations &gt; Formations Digitales &gt; Nos conseils &gt; Actualités du CPF &gt; Comment se reconvertir avec son CPF ?</div>
+    <h1>Comment se reconvertir avec son CPF ?</h1>
+    <p>Un projet de reconversion ? Vous êtes au bon endroit si vous vous posez des questions quant à la planification de votre future carrière. Comment utiliser son CPF pour se reconvertir ? Comment choisir la bonne formation ?</p>
+    <div class="herobtns">
+      <span class="btn solid">Prendre rendez-vous</span>
+      <span class="btn line">Recevoir la brochure</span>
+    </div>
+
+    <div class="meta-row annot annot-outline">
+      <div class="author">
+        <div class="avatar">CB</div>
+        <div>
+          <div class="name">Camille Béranger*</div>
+          <div class="role">Conseillère formation, L'Atelier des Chefs</div>
+        </div>
+      </div>
+      <span class="dot"></span>
+      <div class="meta-item">8 min de lecture</div>
+      <span class="dot"></span>
+      <div class="meta-item">Publié le 13 mai 2024 · MàJ le 16 juin 2026</div>
+      <span class="annot-badge">2</span>
+    </div>
+  </div>
+
+  <div class="sommaire">
+    <div class="row-tagged" style="margin-bottom:14px;"><h2>Sommaire</h2></div>
+    <ol>
+      <li>Comprendre le CPF</li>
+      <li>CPF et reconversion professionnelle</li>
+      <li>Comment utiliser son CPF pour se reconvertir ?</li>
+      <li>Nos conseils pour réussir sa reconversion avec le CPF</li>
+      <li>Nos formations digitales aux métiers de la main et de l'humain</li>
+      <li>Lancez-vous dès aujourd'hui !</li>
+      <li>On répond à vos questions</li>
+    </ol>
+  </div>
+
+  <div class="body">
+    <div class="enbref">
+      <span class="lab">En bref</span>
+      Se reconvertir grâce à son Compte Personnel de Formation (CPF) permet de financer facilement un apprentissage certifiant pour changer de métier. Avec l'Atelier des Chefs, mobilisez vos droits pour suivre des cursus 100&nbsp;% digitaux et diplômants, comme le CAP Cuisine ou le CAP Électricien.
+    </div>
+
+    <h2 class="sec">Comprendre le CPF</h2>
+    <h3 class="sub">Comment sont calculés les droits à la formation ?</h3>
+    <p>Les droits à la formation sont accumulés chaque année en fonction de l'activité du bénéficiaire. Le tableau ci-dessous résume les deux régimes d'acquisition.</p>
+
+    <div class="tblwrap annot annot-outline" style="margin-top:14px;">
+      <span class="annot-badge">3</span>
+    <table>
+      <thead><tr><th>Régime CPF</th><th>Public</th><th>Montant annuel</th><th>Plafond</th><th>Reste à charge</th></tr></thead>
+      <tbody>
+        <tr><td>Classique</td><td>Salariés temps plein</td><td class="num">500 €</td><td class="num">5 000 €</td><td>150 € (forfait, depuis avril 2026)</td></tr>
+        <tr><td>Majoré</td><td>Peu qualifiés / demandeurs d'emploi</td><td class="num">800 €</td><td class="num">8 000 €</td><td>150 € (forfait, depuis avril 2026)</td></tr>
+        <tr><td>Co-financement</td><td>Si solde CPF insuffisant</td><td>Variable</td><td>—</td><td>Selon France Travail, Région ou OPCO</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="margin-top:14px;">Pour connaître son solde, chaque bénéficiaire doit se rendre sur le site officiel ou utiliser l'application « Mon Compte Formation ». Vous voulez en savoir plus sur les aides à la reconversion&nbsp;? On a écrit
+      <span class="inline-link">un article complet sur les aides à la reconversion professionnelle</span>.
+    </p>
+
+    <h2 class="sec">CPF et reconversion professionnelle</h2>
+    <h3 class="sub">Comment choisir la bonne formation ?</h3>
+    <p>Le choix de la formation est l'étape la plus importante de votre démarche. Trois critères à considérer : la pertinence par rapport au projet professionnel, la reconnaissance et l'accréditation, et l'adéquation avec le marché de l'emploi. Découvrez
+      <span class="inline-link">toutes les formations éligibles au CPF</span>.
+    </p>
+  </div>
+
+  <div class="related annot annot-outline" style="outline-offset:-2px;">
+    <span class="annot-badge annot-badge--inset">4</span>
+    <h2>À lire aussi sur le CPF</h2>
+    <p class="hint">Bloc de maillage contextuel en fin d'article, vers les guides du même pilier éditorial (« Actualités du Compte Personnel de Formation »).</p>
+    <div class="relgrid">
+      <div class="relcard"><span class="k">Guide</span><b>Le CPF de transition professionnelle, mode d'emploi</b></div>
+      <div class="relcard"><span class="k">Guide</span><b>Financer son CAP Cuisine avec le CPF</b></div>
+      <div class="relcard"><span class="k">Guide</span><b>CPF et OPCO : quelles aides complémentaires ?</b></div>
+    </div>
+  </div>
+
+  <div class="faq">
+    <h2>On répond à vos questions</h2>
+    <div class="faqitem"><span>Puis-je utiliser mon CPF pour une reconversion professionnelle ?</span><span class="plus">+</span></div>
+    <div class="faqitem"><span>Qu'est-ce qui change pour le CPF en 2026 ?</span><span class="plus">+</span></div>
+    <div class="faqitem"><span>Quelles sont les conditions pour bénéficier du CPF de transition professionnelle ?</span><span class="plus">+</span></div>
+    <div class="faqitem"><span>Comment fonctionne le dispositif Transition Pro pour financer ma reconversion ?</span><span class="plus">+</span></div>
+  </div>
+
+  <div class="ctabar">
+    <span class="btn line">Recevoir la brochure</span>
+    <span class="btn solid" style="background:#fff;color:var(--terracotta);">Prendre rendez-vous</span>
+  </div>
+
+</div>
+
+<p style="max-width:920px;margin:-38px auto 40px;font-size:11.5px;color:var(--ink);opacity:0.6;">* Nom et avatar fictifs à titre d'exemple, à remplacer par le rédacteur ou la rédactrice réel·le de l'article.</p>
+
+<script>
+  const btn = document.getElementById('annot-toggle');
+  const label = btn.querySelector('.label');
+  btn.addEventListener('click', () => {
+    const hidden = document.body.classList.toggle('hide-annot');
+    label.textContent = hidden ? 'Afficher les annotations' : 'Masquer les annotations';
+  });
+</script>
